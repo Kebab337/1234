@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Крестики-нолики</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Крестики-нолики</h1>
+    <table>
+        <tr>
+            <td data-index="0"></td>
+            <td data-index="1"></td>
+            <td data-index="2"></td>
+        </tr>
+        <tr>
+            <td data-index="3"></td>
+            <td data-index="4"></td>
+            <td data-index="5"></td>
+        </tr>
+        <tr>
+            <td data-index="6"></td>
+            <td data-index="7"></td>
+            <td data-index="8"></td>
+        </tr>
+    </table>
+    <p id="status"></p>
+
+    <script>
+        const board = Array(9).fill(null);
+        const cells = document.querySelectorAll('td');
+        const status = document.getElementById('status');
+        let currentPlayer = 'X';
+
+        cells.forEach(cell => {
+            cell.addEventListener('click', handleClick);
+        });
+
+        function handleClick(event) {
+            const index = parseInt(event.target.dataset.index);
+            if (board[index] === null) {
+                board[index] = currentPlayer;
+                event.target.textContent = currentPlayer;
+                if (checkWin()) {
+                    status.textContent = `${currentPlayer} выиграл!`;
+                    disableCells();
+                } else if (checkDraw()) {
+                    status.textContent = "Ничья!";
+                    disableCells();
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            }
+        }
+
+        function checkWin() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
+                [0, 4, 8], [2, 4, 6]             // diagonals
+            ];
+            return winPatterns.some(pattern => {
+                return pattern.every(index => board[index] === currentPlayer);
+            });
+        }
+
+        function checkDraw() {
+            return board.every(cell => cell !== null);
+        }
+
+        function disableCells() {
+            cells.forEach(cell => cell.removeEventListener('click', handleClick));
+        }
+    </script>
+</body>
+</html>

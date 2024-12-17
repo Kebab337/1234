@@ -6,40 +6,74 @@
         body {
             background-image: linear-gradient(to right, red, yellow);
             font-family: sans-serif;
+            display: flex;
+            justify-content: center; /* Центрирование по горизонтали */
+            align-items: center; /* Центрирование по вертикали */
+            height: 100vh; /* Заполняем всю высоту экрана */
+            margin: 0; /* Убираем отступы по умолчанию */
+        }
+
+        #container {
+            text-align: center; /* Центрирование текста внутри контейнера */
+            background-color: rgba(255, 255, 255, 0.8); /* Добавляем полупрозрачный фон для содержимого */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin-bottom: 15px;
+        }
+
+        input[type="number"] {
+            width: 100px; /* Устанавливаем ширину поля ввода */
+            padding: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50; /* Зеленый цвет */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-
-    <h1>Угадай число от 1 до 100</h1>
-    <p>Введите ваше предположение:</p>
-    <input type="number" id="guess" min="1" max="100">
-    <button onclick="checkGuess()">Проверить</button>
-    <p id="message"></p>
+    <div id="container">
+        <h1>Угадай число от 1 до 100</h1>
+        <p>Введите ваше предположение:</p>
+        <input type="number" id="guess" min="1" max="100">
+        <button onclick="checkGuess()">Проверить</button>
+        <p id="message"></p>
+    </div>
 
     <script>
-let secretNumber = Math.floor(Math.random() * 100) + 1;
-let attempts = 0;
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
 
-function checkGuess() {
-  let guess = parseInt(document.getElementById("guess").value);
-  attempts++;
+        function checkGuess() {
+            let guess = parseInt(document.getElementById("guess").value);
+            attempts++;
 
-  if (isNaN(guess) || guess < 1 || guess > 100) {
-    document.getElementById("message").textContent = "Пожалуйста, введите число от 1 до 100.";
-    return;
-  }
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                document.getElementById("message").textContent = "Пожалуйста, введите число от 1 до 100.";
+                return;
+            }
 
-  if (guess === secretNumber) {
-    document.getElementById("message").textContent = `Поздравляю! Вы угадали число ${secretNumber} за ${attempts} попыток!`;
-    document.getElementById("guess").disabled = true;
-    document.querySelector("button").disabled = true;
-  } else if (guess < secretNumber) {
-    document.getElementById("message").textContent = "Слишком мало! Попробуйте ещё раз.";
-  } else {
-    document.getElementById("message").textContent = "Слишком много! Попробуйте ещё раз.";
-  }
-}
+            if (guess === secretNumber) {
+                document.getElementById("message").textContent = `Поздравляю! Вы угадали число ${secretNumber} за ${attempts} попыток!`;
+                document.getElementById("guess").disabled = true;
+                document.querySelector("button").disabled = true;
+            } else if (guess < secretNumber) {
+                document.getElementById("message").textContent = "Слишком мало! Попробуйте ещё раз.";
+            } else {
+                document.getElementById("message").textContent = "Слишком много! Попробуйте ещё раз.";
+            }
+        }
     </script>
 
 </body>
